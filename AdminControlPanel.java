@@ -62,6 +62,7 @@ public class AdminControlPanel extends JFrame {
             }
         });
 
+        //all the buttons and panels
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -124,6 +125,18 @@ public class AdminControlPanel extends JFrame {
         gbc.gridwidth = 2;
         controlPanel.add(showPositivePercentageButton, gbc);
 
+        JButton verifyIDsButton = new JButton("Verify IDs");
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        controlPanel.add(verifyIDsButton, gbc);
+
+        JButton showLastUpdatedUserButton = new JButton("Show Last Updated User");
+        gbc.gridx = 2;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        controlPanel.add(showLastUpdatedUserButton, gbc);
+
         addUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -183,6 +196,26 @@ public class AdminControlPanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 double positivePercentage = UserManager.getInstance().getPositiveMessagesPercentage();
                 JOptionPane.showMessageDialog(AdminControlPanel.this, "Positive Messages Percentage: " + positivePercentage + "%");
+            }
+        });
+
+        showLastUpdatedUserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String lastUpdatedUser = UserManager.getInstance().getLastUpdatedUser();
+                JOptionPane.showMessageDialog(AdminControlPanel.this, "Last Updated User ID: " + lastUpdatedUser);
+            }
+        });
+
+        verifyIDsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean valid = UserManager.getInstance().verifyIDs();
+                if (valid) {
+                    JOptionPane.showMessageDialog(AdminControlPanel.this, "All IDs are valid.");
+                } else {
+                    JOptionPane.showMessageDialog(AdminControlPanel.this, "Some IDs are invalid.");
+                }
             }
         });
 
