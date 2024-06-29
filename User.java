@@ -11,6 +11,8 @@ public class User {
     private List<String> followings;
     private List<String> newsFeed;
     private List<User> followers; // List of observers
+    private long creationTime;
+    private long lastUpdateTime;
 
     /**
      * Constructs a new User with the specified userID.
@@ -22,6 +24,8 @@ public class User {
         this.followings = new ArrayList<>();
         this.newsFeed = new ArrayList<>();
         this.followers = new ArrayList<>();
+        this.creationTime = System.currentTimeMillis(); // Set creation time
+        this.lastUpdateTime = System.currentTimeMillis(); // Initialize lastUpdateTime
     }
 
     /**
@@ -129,6 +133,7 @@ public class User {
     public void postTweet(String tweet) {
         newsFeed.add(userID + ": " + tweet);
         notifyFollowers(tweet); // Notify followers when a new tweet is posted
+        this.lastUpdateTime = System.currentTimeMillis();
     }
 
     /**
@@ -138,5 +143,23 @@ public class User {
      */
     public List<String> getNewsFeed() {
         return newsFeed;
+    }
+
+    /**
+     * Gets the creation time of the user.
+     * 
+     * @return the creation time in milliseconds since epoch
+     */
+    public long getCreationTime() {
+        return creationTime;
+    }
+
+    /**
+     * Gets the last update time of the user.
+     * 
+     * @return the last update time in milliseconds since epoch
+     */
+    public long getLastUpdateTime() {
+        return lastUpdateTime;
     }
 }
