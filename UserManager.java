@@ -105,7 +105,7 @@ public class UserManager {
     public double getPositiveMessagesPercentage() {
         int positiveCount = 0;
         Set<String> uniqueMessages = new HashSet<>();
-        String[] positiveWords = {"good", "great", "excellent"};
+        String[] positiveWords = {"good", "great", "excellent", "perfect", "awesome"};
 
         for (User user : userMap.values()) {
             uniqueMessages.addAll(user.getNewsFeed());
@@ -122,5 +122,52 @@ public class UserManager {
 
         int totalCount = uniqueMessages.size();
         return totalCount > 0 ? (positiveCount / (double) totalCount) * 100 : 0;
+    }
+
+    /**
+     * Verifies that all user and group IDs are unique and do not contain spaces.
+     *
+     * @return true if all IDs are valid, false otherwise
+     */
+    public boolean verifyIDs() {
+        Set<String> allIDs = new HashSet<>();
+        boolean allValid = true;
+    
+        // Check User IDs
+        for (User user : userMap.values()) {
+            if (user.getUserID().contains(" ") || !allIDs.add(user.getUserID())) {
+                allValid = false;
+                break;
+            }
+        }
+    
+        // Check Group IDs
+        for (UserGroup group : groupMap.values()) {
+            if (group.getGroupID().contains(" ") || !allIDs.add(group.getGroupID())) {
+                allValid = false;
+                break;
+            }
+        }
+    
+        return allValid;
+    }
+
+    /**
+     * Retrieves the ID of the user who was last updated.
+     *
+     * @return the ID of the user who was last updated
+     */
+    public String getLastUpdatedUser() {
+        long maxUpdateTime = Long.MIN_VALUE;
+        String lastUpdatedUser = null;
+    
+        for (User user : userMap.values()) {
+            if (user.getLastUpdateTime() > maxUpdateTime) {
+                maxUpdateTime = user.getLastUpdateTime();
+                lastUpdatedUser = user.getUserID();
+            }
+        }
+    
+        return lastUpdatedUser;
     }
 }
